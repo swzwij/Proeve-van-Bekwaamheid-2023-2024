@@ -331,7 +331,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6299083955471557668, guid: f8811ee5069a82c4a9eb4acecd749d69, type: 3}
       propertyPath: _timebetweenRotations
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6299083955471557668, guid: f8811ee5069a82c4a9eb4acecd749d69, type: 3}
       propertyPath: _rotationDiractions.Array.size
