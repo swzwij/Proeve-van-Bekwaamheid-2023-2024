@@ -55,7 +55,11 @@ namespace UntitledCube.Maze.Cell
                 _walls.Add(_directions[i], _wallObjects[i]);
         }
 
-        private void OnTriggerEnter(Collider other) => Stopwatch.Instance.Stop();
+        private void OnTriggerEnter(Collider other)
+        {
+            Stopwatch.Instance.Stop();
+            Finish.FinishMaze();
+        }
 
         /// <summary>
         /// Deactivates a specific wall object.
