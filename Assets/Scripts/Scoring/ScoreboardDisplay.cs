@@ -12,6 +12,8 @@ namespace UntitledCube.Scoring
 
         private void Display()
         {
+            Scoreboard.LoadScores();
+
             Dictionary<string, float> scores = Scoreboard.Scores;
             foreach (string score in scores.Keys) 
             {
