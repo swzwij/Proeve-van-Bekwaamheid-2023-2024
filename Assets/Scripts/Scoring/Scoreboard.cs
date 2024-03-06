@@ -8,22 +8,13 @@ namespace UntitledCube.Scoring
 {
     public static class Scoreboard
     {
-        private static string _filePath;
-        private static Dictionary<string, float> _scores;
+        private static readonly string _filePath = Application.persistentDataPath + "/newScoreboard.xml";
+        private static Dictionary<string, float> _scores = new();
 
         public static Dictionary<string, float> Scores => _scores;
 
         public static Action OnScoreAdded;
         public static Action OnInitialized;
-
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        private static void Initialize()
-        {
-            _filePath = Application.persistentDataPath + "/scoreboard.xml";
-            _scores = new Dictionary<string, float>();
-            LoadScores();
-            OnInitialized?.Invoke();
-        }
 
         public static void AddScore(string seed, float time)
         {
