@@ -8,19 +8,18 @@ namespace UntitledCube.Scoring
     {
         private const string FILE_NAME = "ScoreRecord.json";
 
-        [System.Serializable]
-        public class SerializableDictionary : Dictionary<string, float> { }
-
-        public static void SaveDictionary(SerializableDictionary dictionary)
+        public static void Save(Dictionary<string, float> dictionary)
         {
             string jsonData = JsonUtility.ToJson(dictionary);
             string filePath = Path.Combine(Application.persistentDataPath, FILE_NAME);
             File.WriteAllText(filePath, jsonData);
 
             Debug.Log("Dictionary saved to: " + filePath);
+            Debug.Log($"Dictionary saved with {dictionary.Count} items");
+            Debug.Log(jsonData);
         }
 
-        public static SerializableDictionary LoadDictionary()
+        public static Dictionary<string, float> Load()
         {
             string filePath = Path.Combine(Application.persistentDataPath, FILE_NAME);
 
@@ -31,26 +30,29 @@ namespace UntitledCube.Scoring
             }
 
             string jsonData = File.ReadAllText(filePath);
-            SerializableDictionary dictionary = JsonUtility.FromJson<SerializableDictionary>(jsonData);
+            Dictionary<string, float> dictionary = JsonUtility.FromJson<Dictionary<string, float>>(jsonData);
             Debug.Log("Dictionary loaded from: " + filePath);
+            Debug.Log("Dictionary has " + dictionary.Count + " items");
             return dictionary;
         }
 
         public static void Add(string key, float value)
         {
-            SerializableDictionary dictionary = LoadDictionary() ?? new SerializableDictionary();
+            Dictionary<string, float> dictionary = Load() ?? new Dictionary<string, float>();
+            if(!dictionary.ContainsKey(key))
+                dictionary.Add(key, value);
             dictionary[key] = value;
-            SaveDictionary(dictionary);
+            Save(dictionary);
         }
 
         public static void Remove(string key)
         {
-            SerializableDictionary dictionary = LoadDictionary();
+            Dictionary<string, float> dictionary = Load();
             if (dictionary == null || !dictionary.ContainsKey(key))
                 return;
 
             dictionary.Remove(key);
-            SaveDictionary(dictionary);
+            Save(dictionary);
         }
     }
 }

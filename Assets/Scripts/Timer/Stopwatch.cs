@@ -50,7 +50,7 @@ namespace UntitledCube.Timer
             OnTimerStopped?.Invoke(FormatTime(_elapsedTime));
         }
 
-        private string FormatTime(float time)
+        public string FormatTime(float time)
         {
             TimeSpan timeSpan = TimeSpan.FromSeconds(time);
 

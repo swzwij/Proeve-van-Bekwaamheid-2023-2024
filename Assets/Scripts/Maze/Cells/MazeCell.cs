@@ -63,6 +63,12 @@ namespace UntitledCube.Maze.Cell
             float time = Stopwatch.Instance.ElapsedTime;
             string seed = MazeGenerator.Seed;
             Scoreboard.Add(seed, time);
+
+            var scores = Scoreboard.Load();
+            foreach (var item in scores)
+            {
+                Debug.Log(item.Value);
+            }
         }
 
         /// <summary>
