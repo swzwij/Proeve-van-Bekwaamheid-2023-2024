@@ -15,6 +15,8 @@ namespace UntitledCube.Timer
 
         public Action<string> OnTimerStopped;
 
+        public float ElapsedTime => _elapsedTime;
+
         private void Update()
         {
             if (!_timerRunning)

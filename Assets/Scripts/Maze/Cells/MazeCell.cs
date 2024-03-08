@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UntitledCube.Maze.Generation;
+using UntitledCube.Scoring;
 using UntitledCube.Timer;
 
 namespace UntitledCube.Maze.Cell
@@ -55,7 +57,13 @@ namespace UntitledCube.Maze.Cell
                 _walls.Add(_directions[i], _wallObjects[i]);
         }
 
-        private void OnTriggerEnter(Collider other) => Stopwatch.Instance.Stop();
+        private void OnTriggerEnter(Collider other)
+        {
+            Stopwatch.Instance.Stop();
+            float time = Stopwatch.Instance.ElapsedTime;
+            string seed = MazeGenerator.Seed;
+            Scoreboard.Add(seed, time);
+        }
 
         /// <summary>
         /// Deactivates a specific wall object.
