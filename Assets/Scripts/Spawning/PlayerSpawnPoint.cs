@@ -5,10 +5,8 @@ namespace UntitledCube.Spawning
 {
     public class PlayerSpawnPoint : MonoBehaviour
     {
-        [SerializeField] private GameObject _player;
+        [SerializeField] private PlayerWrapper _player;
         [SerializeField] private Transform _spawnPoint;
-
-        private Rigidbody _playerRigidbody;
 
         private void OnEnable() => MazeGenerator.OnGenerated += SpawnPlayer;
 
@@ -17,13 +15,13 @@ namespace UntitledCube.Spawning
         private void SpawnPlayer(string _)
         {
             _player.transform.SetPositionAndRotation(_spawnPoint.position, Quaternion.identity);
-
-            if (_playerRigidbody == null)
-                _playerRigidbody = _player.GetComponent<Rigidbody>();
-
-            _playerRigidbody.velocity = Vector3.zero;
-            _playerRigidbody.freezeRotation = true;
-            _playerRigidbody.freezeRotation = false;
-        }   
+            
+            foreach (Rigidbody rigidbody in _player.Rigidbodies)
+            {
+                rigidbody.velocity = Vector3.zero;
+                rigidbody.freezeRotation = true;
+                rigidbody.freezeRotation = false;
+            }
+        }
     }
 }

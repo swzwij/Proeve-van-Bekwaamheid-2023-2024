@@ -60,15 +60,32 @@ namespace UntitledCube.Transport
         private void StickToWorld(WorldRotations side)
         {
             _currentObject.transform.SetParent(transform);
-            _currentObject.GetComponent<Rigidbody>().isKinematic = true;
-            _currentObject.GetComponent<Collider>().enabled = false;
+            if (_currentObject.TryGetComponent(out PlayerWrapper playerWrapper))
+            {
+                playerWrapper.SetKinematic(true);
+                playerWrapper.SetCollidersActive(false);
+            }
+            else
+            {
+                _currentObject.GetComponent<Rigidbody>().isKinematic = true;
+                _currentObject.GetComponent<Collider>().enabled = false;
+            }
 
             _rotator.RotateWorld(side);
         }
         private void UnStickToWorld()
         {
-            _currentObject.GetComponent<Collider>().enabled = true;
-            _currentObject.GetComponent<Rigidbody>().isKinematic = false;
+            if (_currentObject.TryGetComponent(out PlayerWrapper playerWrapper))
+            {
+                playerWrapper.SetKinematic(false);
+                playerWrapper.SetCollidersActive(true);
+            }
+            else
+            {
+                _currentObject.GetComponent<Collider>().enabled = true;
+                _currentObject.GetComponent<Rigidbody>().isKinematic = false;
+            }
+
             _currentObject.transform.SetParent(null);
             _currentObject.transform.rotation = Quaternion.identity;
         }
