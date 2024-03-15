@@ -1,5 +1,6 @@
 using UntitledCube.Maze.Generation;
 using UnityEngine;
+using UntitledCube.Player;
 
 namespace UntitledCube.Spawning
 {
