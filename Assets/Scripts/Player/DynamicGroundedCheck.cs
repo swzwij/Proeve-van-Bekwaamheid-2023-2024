@@ -7,6 +7,8 @@ namespace UntitledCube.Player
     public class DynamicGroundedCheck : MonoBehaviour
     {
         [SerializeField] private float _raycastDistance = 0.2f;
+        [SerializeField] private LayerMask _groundLayerMask;
+
         private Vector3 _raycastDirection = Vector3.down;
 
         public event Action OnGrounded;
@@ -14,7 +16,8 @@ namespace UntitledCube.Player
 
         private bool _wasGrounded = false;
 
-        public bool IsGrounded => Physics.Raycast(transform.position, _raycastDirection, _raycastDistance);
+        public bool IsGrounded 
+            => Physics.Raycast(transform.position, _raycastDirection, _raycastDistance, _groundLayerMask);
 
         private void Awake() => GravityManager.Instance.OnGravityChanged += SetRayCastDirection;
 
