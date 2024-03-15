@@ -19,6 +19,7 @@ namespace MarkUlrich.StateMachine.States
         public Action OnStateEnter;
         public Action OnStateExit;
         public Action OnSceneLoaded;
+        public Action OnSceneUnloaded;
 
         protected State() => InitState();
 
@@ -73,13 +74,22 @@ namespace MarkUlrich.StateMachine.States
 
         protected void UnloadScene(string sceneName)
         {
-            if (SceneManager.GetSceneByName(sceneName).isLoaded)
-            {
-                SceneManager.UnloadSceneAsync(sceneName);
+            if (!SceneManager.GetSceneByName(sceneName).isLoaded)
+                return;
+            
+            SceneManager.UnloadSceneAsync(sceneName);
 
-                if (OwningStateMachine.IsDebugging)
-                    Debug.Log($"Unloaded Scene ({sceneName})");
-            }
+            if (OwningStateMachine.IsDebugging)
+                Debug.Log($"Unloaded Scene ({sceneName})");
+
+            OwningStateMachine.StartCoroutine(WaitForSceneUnloaded(sceneName));
+        }
+
+        private IEnumerator WaitForSceneUnloaded(string sceneName)
+        {
+            yield return new WaitUntil(() => !SceneManager.GetSceneByName(sceneName).isLoaded);
+
+            OnSceneUnloaded?.Invoke();
         }
 
         private IEnumerator WaitForSceneLoaded(string sceneName)
